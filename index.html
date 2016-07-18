@@ -1,9 +1,73 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Simple Google maps API query with javascript</title>
-</head>
-<body>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div id="map">
+    <script>
+    //definition of callback fucntion
+    	function initMap() {
 
-</body>
+  var myStyle = [
+  {
+    featureType: "all",
+    stylers: [
+
+    { hue: "#b8860b" },
+      { saturation: -10 }
+    ]
+  },{
+    featureType: "road.arterial",
+    elementType: "geometry",
+    stylers: [
+      { color: "#b8860b" },
+      { saturation: -20 }
+    ]
+  },{
+    featureType: "poi.business",
+    elementType: "labels",
+    stylers: [
+      { visibility: "on" }
+    ]
+  }
+];
+// create an instance of StyledMapTpye. contructor arguments are the style array and a map name
+var styledMap = new google.maps.StyledMapType(myStyle,
+    {name: "MyMap"});
+//create an array containing the options required to initiate a google map. Zoom and center mustbe defined.
+//mapTypeIds is optional.
+  var myMapObject = {
+    zoom: 8,
+    center: new google.maps.LatLng(33.749046, -100.2898291),
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+    }
+  };
+  //create an instance of the google map Object. The contructor arguments are the div element id
+  //and the array containing the map options.
+  var myMap = new google.maps.Map(document.getElementById('map'),
+    myMapObject);
+
+  //Associate the mapTypeId and the styledmap with the google map object
+  myMap.mapTypes.set('map_style', styledMap);
+  myMap.setMapTypeId('map_style');
+  //create an instance of google map marker and associate it to the google map object created earlier.
+  var myMarker = new google.maps.Marker({
+    position: {lat: 33.749046, lng: -100.2898291},
+    map: myMap,
+    title: 'Hello World!'
+  });
+}
+    </script>
+    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJhNYDZWp9GGN1H_IT42Ay2iXHQjHXuxY&callback=initMap"
+    async defer>
+    	// googlemap key and call back function must be included in the src link to access the API.
+    </script>
+    </div>
+  </body>
 </html>
